@@ -15,6 +15,7 @@ import {
   InputLabel,
   Link,
   OutlinedInput,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -92,7 +93,7 @@ export default function LoginForm() {
       setAuth(true);
       setAccessToken(token);
       // редиректим на нужную страницу
-      navigate("/test");
+      navigate("/");
       // console.log(loginResponse);
       console.log(token);
       // console.log(loginResponse.user.stsTokenManager);
@@ -126,7 +127,7 @@ export default function LoginForm() {
         autoComplete="email"
         error={!!errors.email || (authError.error && true)}
         helperText={errors.email?.message}
-        sx={{ mb: 3, mt: "20px" }}
+        sx={{ mb: 3, mt: "17px" }}
         {...register("email")}
       />
       {/* Сложный кастомизуемый input[type="password"] 
@@ -161,13 +162,18 @@ export default function LoginForm() {
           }
           label="Password"
         />
-        <p
-          className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
-          id="outlined-password-input-helper-text"
-          style={{ display: errors && authError.error ? "block" : "none" }}
+        <Typography
+          style={{ display: errors || authError.error ? "block" : "none" }}
+          sx={{
+            fontSize: "0.75rem",
+            ml: "14px",
+            mr: "14px",
+            mt: "3px",
+            color: "#d32f2f",
+          }}
         >
           {errors.password?.message} {authError.message}
-        </p>
+        </Typography>
       </FormControl>
       {/* 
             Компонент-кнопка variant - визуальный тип кнопки, 

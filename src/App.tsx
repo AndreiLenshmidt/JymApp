@@ -6,6 +6,7 @@ import UnAuthLayout from "./layouts/unauth/UnAuthLayuot";
 import HelloPage from "./pages/HelloPage";
 import TestFirebaseBD from "./pages/login/TestFirebaseBD";
 import { useJymAppStore } from "./store/store";
+import MainPage from "./pages/MainPage";
 
 function App() {
   // const [auth, setAuth] = useState(false);
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         {isAuth ? (
           <Route element={<AuthLayout />}>
-            <Route path="/" element={<TestFirebaseBD />} />
+            <Route path="/" element={<MainPage />} />
             <Route path="/test" element={<TestFirebaseBD />} />
           </Route>
         ) : (

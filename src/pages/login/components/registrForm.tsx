@@ -14,6 +14,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -175,13 +176,18 @@ export default function RegistrationForm() {
           }
           label="Password"
         />
-        <p
-          className="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-er619e-MuiFormHelperText-root"
-          id="outlined-password-input-helper-text"
+        <Typography
           style={{ display: errors && authError.error ? "block" : "none" }}
+          sx={{
+            fontSize: "0.75rem",
+            ml: "14px",
+            mr: "14px",
+            mt: "3px",
+            color: "#d32f2f",
+          }}
         >
           {errors.password?.message} {authError.message}
-        </p>
+        </Typography>
       </FormControl>
       {/* 
             Компонент-кнопка variant - визуальный тип кнопки, 

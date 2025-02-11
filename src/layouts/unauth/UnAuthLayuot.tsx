@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Outlet } from "react-router";
 
 export default function UnAuthLayout() {
@@ -14,26 +14,37 @@ export default function UnAuthLayout() {
     >
       <Box
         sx={{
-          padding: "20px 0",
+          padding: "10px 0",
           width: "100%",
-          textAlign: "center",
-          backgroundColor: "#1976d22e",
+          textAlign: "left",
+          backgroundColor: "#a5d2ff",
         }}
         component={"header"}
       >
-        header
+        {" "}
+        <Typography fontSize="0.75rem" ml={3}>
+          Добро пожаловать в JymApp!
+        </Typography>
       </Box>
       <Outlet />
       <Box
         sx={{
-          padding: "20px 0",
+          padding: "10px 0",
           width: "100%",
-          textAlign: "center",
-          backgroundColor: "#1976d22e",
+          textAlign: "left",
+          backgroundColor: "#a5d2ff",
         }}
         component={"footer"}
       >
-        footer
+        <Typography fontSize="0.75rem" ml={3}>
+          Разработчик: Lenshmidt A.
+        </Typography>
+        <Typography fontSize="0.75rem" ml={3}>
+          lenshmidt.andrei@gmail.com
+        </Typography>
+        <Typography fontSize="0.75rem" ml={3}>
+          тел: 8 (999) 635 47 59
+        </Typography>
       </Box>
     </Box>
   );

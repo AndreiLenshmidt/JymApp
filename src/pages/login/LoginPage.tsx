@@ -19,8 +19,9 @@ export default function LoginPage() {
         padding: "20px",
         boxShadow: "0 0 1px 1px #1565c0",
         borderRadius: "5px",
-        minWidth: "300px",
+        minWidth: "310px",
         boxSizing: "border-box",
+        mb: "160px",
       }}
     >
       <Tabs
