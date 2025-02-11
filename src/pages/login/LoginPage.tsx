@@ -1,91 +1,66 @@
-import { useEffect, useState } from "react";
-import { db } from "../../firebase-config";
-import { ref, child, get, set, remove, push } from "firebase/database";
+import { Box } from "@mui/material";
+import LoginForm from "./components/loginForm";
+import { useState } from "react";
+import { Tabs, Tab } from "@mui/material";
+import RegistrationForm from "./components/registrForm";
 
 export default function LoginPage() {
-  const [database, setDb] = useState<
-    Array<{ username: string; email: string }>
-  >([]);
-  const [counter, setCounter] = useState(0);
+  const [value, setValue] = useState("one");
 
-  useEffect(() => {
-    const dbRef = ref(db);
-    get(child(dbRef, "users/"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          setDb(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    get(child(dbRef, "current/"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          setCounter(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  // useEffect(() => {
-  //   const starCountRef = ref(db, "users");
-  //   onValue(starCountRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     setDb(data);
-  //   });
-  // }, []);
-
-  const reWriteData = (name: String, email: String, current: number) => {
-    console.log(current);
-    const userListRef = ref(db, "users/");
-    const newUserRef = push(userListRef);
-    set(newUserRef, {
-      username: name,
-      email: email,
-    });
-    set(ref(db, "current/"), current);
-    setCounter(counter + 1);
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
   };
-
-  const removeData = (path: string) => {
-    remove(ref(db, path));
-  };
-
   return (
-    <>
-      <ul>
-        {database.map((item) => (
-          <li key={Date.now()}>
-            {item.username} {item.email}
-          </li>
-        ))}
-      </ul>
-      <button
-        onClick={() =>
-          reWriteData(`Vasa${counter + 1}`, `Pup${counter + 1}`, counter + 1)
-        }
+    /* Компонент Box из MaterialUI, атрибут "component" по умолчанию "div"
+    в данном случае в разметке будет "section"
+    sx - атрубут, где можно прописать стили */
+    <Box
+      sx={{
+        padding: "20px",
+        boxShadow: "0 0 1px 1px #1565c0",
+        borderRadius: "5px",
+        minWidth: "300px",
+        boxSizing: "border-box",
+      }}
+    >
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="wrapped label tabs example"
+        centered
+        sx={{ mb: 3 }}
       >
-        Add User
-      </button>
-      <button
-        onClick={() => {
-          removeData("users/");
-          removeData("current/");
-          setDb([]);
-        }}
-      >
-        Del users
-      </button>
-    </>
+        <Tab value="one" label="Вход" />
+        <Tab value="two" label="Регистрация" />
+      </Tabs>
+      {value === "one" ? <LoginForm /> : <RegistrationForm />}
+    </Box>
   );
 }
+
+// https://www.react-hook-form.com/get-started/#SchemaValidation
+// https://zod.dev/?id=strings
+// https://mui.com/material-ui/react-button/
+// https://mui.com/material-ui/react-box/
+// https://mui.com/material-ui/react-text-field/
+// https://mui.com/material-ui/react-typography/
+// https://blog.back4app.com/ru/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D0%B5-%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE-%D0%B0%D1%83%D1%82%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8/
+
+// Настройка доступа БД для пользователя через токен
+// https://firebase.google.com/docs/auth/admin/manage-sessions?authuser=0
+// {
+//   "rules": {
+//     "users": {
+//       "$user_id": {
+//         ".read": "auth != null && $user_id === auth.uid && (
+//             !root.child('metadata').child(auth.uid).child('revokeTime').exists()
+//           || auth.token.auth_time > root.child('metadata').child(auth.uid).child('revokeTime').val()
+//         )",
+//         ".write": "auth != null && $user_id === auth.uid && (
+//             !root.child('metadata').child(auth.uid).child('revokeTime').exists()
+//           || auth.token.auth_time > root.child('metadata').child(auth.uid).child('revokeTime').val()
+//         )",
+//       }
+//     }
+//   }
+// }

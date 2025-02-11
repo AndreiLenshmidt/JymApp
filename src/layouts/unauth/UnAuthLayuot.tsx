@@ -1,24 +1,40 @@
-import { useEffect } from "react";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router";
-// import { initializeApp } from "firebase/app";
-// import { getDatabase } from "firebase/database";
 
 export default function UnAuthLayout() {
-  useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(
-        "https://jymapp-1c753-default-rtdb.europe-west1.firebasedatabase.app/user1"
-      );
-      const data = await response.json();
-      console.log(data);
-    };
-    getData();
-  }, []);
-
   return (
-    <>
-      <h1>UnAuthLayout</h1>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          padding: "20px 0",
+          width: "100%",
+          textAlign: "center",
+          backgroundColor: "#1976d22e",
+        }}
+        component={"header"}
+      >
+        header
+      </Box>
       <Outlet />
-    </>
+      <Box
+        sx={{
+          padding: "20px 0",
+          width: "100%",
+          textAlign: "center",
+          backgroundColor: "#1976d22e",
+        }}
+        component={"footer"}
+      >
+        footer
+      </Box>
+    </Box>
   );
 }

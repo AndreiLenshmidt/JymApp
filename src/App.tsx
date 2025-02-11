@@ -1,28 +1,28 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import "./App.css";
 import AuthLayout from "./layouts/auth/AuthLayuot";
 import LoginPage from "./pages/login/LoginPage";
-import RegisterPage from "./pages/register/RegisterPage";
 import NotFound from "./pages/NotFound";
 import UnAuthLayout from "./layouts/unauth/UnAuthLayuot";
-import { useState } from "react";
+import HelloPage from "./pages/HelloPage";
+import TestFirebaseBD from "./pages/login/TestFirebaseBD";
+import { useJymAppStore } from "./store/store";
 
 function App() {
-  const [auth, setAuth] = useState(false);
+  // const [auth, setAuth] = useState(false);
+  const isAuth = useJymAppStore((state) => state.isAuth);
 
   return (
     <BrowserRouter>
       <Routes>
-        {auth ? (
+        {isAuth ? (
           <Route element={<AuthLayout />}>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            {/* <Route path="/pidor" element={<RegisterPage />} /> */}
+            <Route path="/" element={<TestFirebaseBD />} />
+            <Route path="/test" element={<TestFirebaseBD />} />
           </Route>
         ) : (
           <Route element={<UnAuthLayout />}>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/" element={<HelloPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Route>
         )}
         <Route path="*" element={<NotFound />} />
