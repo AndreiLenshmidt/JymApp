@@ -7,10 +7,19 @@ import HelloPage from "./pages/HelloPage";
 import TestFirebaseBD from "./pages/login/TestFirebaseBD";
 import { useJymAppStore } from "./store/store";
 import MainPage from "./pages/MainPage";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useLayoutEffect, useState } from "react";
+// import { useEffect } from "react";
+// import { onAuth } from "./firebase-config";
 
 function App() {
   // const [auth, setAuth] = useState(false);
   const isAuth = useJymAppStore((state) => state.isAuth);
+  // const [isAuth, setAuth] = useState(false);
+  // useEffect(() => {
+  //   const user = onAuth();
+  //   console.log(user);
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -33,3 +42,6 @@ function App() {
 }
 
 export default App;
+
+// https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=en&authuser=0
+// https://firebase.google.com/docs/auth/web/start?hl=en&authuser=0

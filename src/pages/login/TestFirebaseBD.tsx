@@ -4,9 +4,9 @@ import { ref, set, remove, push, onValue, off } from "firebase/database";
 // import BearsCounter from "../../components/BearsCounter";
 
 export default function TestFirebaseBD() {
-  const [database, setDb] = useState<
-    Array<{ username: string; email: string }>
-  >([]);
+  const [database, setDb] = useState<Array<{ name: string; email: string }>>(
+    []
+  );
   // const counter = useMemo(() => Object.keys(database).length, []);
 
   // Получить данные один раз
@@ -61,9 +61,10 @@ export default function TestFirebaseBD() {
   const reWriteData = (name: String, email: String) => {
     const userListRef = ref(db, "users/");
     const newUserRef = push(userListRef);
+
     set(newUserRef, {
-      username: name,
-      email: email,
+      name,
+      email,
     });
   };
   // Фкц удаления всех пользователей из БД
@@ -77,7 +78,7 @@ export default function TestFirebaseBD() {
       <ul>
         {Object.values(database).map((item, index) => (
           <li key={index}>
-            {item.username} {item.email}
+            {item.name} {item.email}
           </li>
         ))}
       </ul>

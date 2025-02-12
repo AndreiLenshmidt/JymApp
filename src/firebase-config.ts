@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -27,4 +29,33 @@ export const createUser = async (email: string, password: string) => {
 };
 export const signInUser = async (email: string, password: string) => {
   return signInWithEmailAndPassword(getAuth(app), email, password);
+};
+/* Слушатель состояния аутентификации, позволяет получить данные пользователя
+Для каждой из страниц вашего приложения, которым нужна информация о вошедшем в систему пользователе, прикрепите наблюдателя к глобальному объекту аутентификации. Этот наблюдатель вызывается всякий раз, когда изменяется состояние входа пользователя. 
+Когда пользователь успешно входит в систему, вы можете получить информацию о пользователе в наблюдателе. */
+onAuthStateChanged(getAuth(), (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    console.log(uid);
+    // console.log(user);
+    // return user;
+  } else {
+    // User is signed out
+    console.log("User is signed out");
+  }
+});
+
+export const signout = async () => {
+  signOut(getAuth())
+    .then(() => {
+      // Sign-out successful.
+      console.log("выход из учетки");
+    })
+    .catch((error) => {
+      // An error happened.
+      console.log(error);
+      console.log("выход из учетки не удался");
+    });
 };

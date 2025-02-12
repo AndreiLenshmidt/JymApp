@@ -106,6 +106,10 @@ export default function LoginForm() {
       setIncome(false);
     }
   };
+  // Слушатель авторизации пользователя Firebase
+  // useEffect(() => {
+  //   onAuth();
+  // }, []);
 
   return (
     /* Компонент Box из MaterialUI, атрибут "component" по умолчанию "div"
@@ -170,6 +174,7 @@ export default function LoginForm() {
             mr: "14px",
             mt: "3px",
             color: "#d32f2f",
+            width: "235px",
           }}
         >
           {errors.password?.message} {authError.message}

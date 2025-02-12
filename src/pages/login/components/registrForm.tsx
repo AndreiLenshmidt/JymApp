@@ -184,6 +184,7 @@ export default function RegistrationForm() {
             mr: "14px",
             mt: "3px",
             color: "#d32f2f",
+            width: "235px",
           }}
         >
           {errors.password?.message} {authError.message}
