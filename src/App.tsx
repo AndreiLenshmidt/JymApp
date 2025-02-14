@@ -1,47 +1,85 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import AuthLayout from "./layouts/auth/AuthLayuot";
-import LoginPage from "./pages/login/LoginPage";
-import NotFound from "./pages/NotFound";
-import UnAuthLayout from "./layouts/unauth/UnAuthLayuot";
-import HelloPage from "./pages/HelloPage";
-import TestFirebaseBD from "./pages/login/TestFirebaseBD";
-import { useJymAppStore } from "./store/store";
-import MainPage from "./pages/MainPage";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useLayoutEffect, useState } from "react";
-// import { useEffect } from "react";
-// import { onAuth } from "./firebase-config";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Outlet } from "react-router";
+import type { User } from "firebase/auth";
+import { ReactRouterAppProvider } from "@toolpad/core/react-router";
+import type { Navigation, Authentication } from "@toolpad/core/AppProvider";
+import {
+  firebaseSignOut,
+  signInWithGoogle,
+  onAuthStateChanged,
+} from "./firebase/auth";
+import SessionContext, { type Session } from "./SessionContext";
+import { useEffect, useMemo, useState } from "react";
 
-function App() {
-  // const [auth, setAuth] = useState(false);
-  const isAuth = useJymAppStore((state) => state.isAuth);
-  // const [isAuth, setAuth] = useState(false);
-  // useEffect(() => {
-  //   const user = onAuth();
-  //   console.log(user);
-  // }, []);
+const NAVIGATION: Navigation = [
+  {
+    kind: "header",
+    title: "Main items",
+  },
+  {
+    title: "Dashboard",
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: "orders",
+    title: "Orders",
+    icon: <ShoppingCartIcon />,
+  },
+];
+
+const BRANDING = {
+  title: "My Toolpad Core App",
+};
+
+const AUTHENTICATION: Authentication = {
+  signIn: signInWithGoogle,
+  signOut: firebaseSignOut,
+};
+
+export default function App() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const sessionContextValue = useMemo(
+    () => ({
+      session,
+      setSession,
+      loading,
+    }),
+    [session, loading]
+  );
+
+  useEffect(() => {
+    // Returns an `unsubscribe` function to be called during teardown
+    const unsubscribe = onAuthStateChanged((user: User | null) => {
+      if (user) {
+        setSession({
+          user: {
+            name: user.displayName || "",
+            email: user.email || "",
+            image: user.photoURL || "",
+          },
+        });
+      } else {
+        setSession(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {isAuth ? (
-          <Route element={<AuthLayout />}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/test" element={<TestFirebaseBD />} />
-          </Route>
-        ) : (
-          <Route element={<UnAuthLayout />}>
-            <Route path="/" element={<HelloPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-        )}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <ReactRouterAppProvider
+      navigation={NAVIGATION}
+      branding={BRANDING}
+      session={session}
+      authentication={AUTHENTICATION}
+    >
+      <SessionContext.Provider value={sessionContextValue}>
+        <Outlet />
+      </SessionContext.Provider>
+    </ReactRouterAppProvider>
   );
 }
-
-export default App;
-
-// https://firebase.google.com/docs/auth/web/auth-state-persistence?hl=en&authuser=0
-// https://firebase.google.com/docs/auth/web/start?hl=en&authuser=0

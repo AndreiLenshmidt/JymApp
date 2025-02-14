@@ -9,7 +9,7 @@ export default function NotFound() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigate("/");
-    }, 2000);
+    }, 4000);
     return () => clearTimeout(timeout);
   }, []);
 
