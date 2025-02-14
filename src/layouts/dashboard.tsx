@@ -1,9 +1,9 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import { Outlet, Navigate, useLocation } from "react-router";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
-import { PageContainer } from "@toolpad/core/PageContainer";
 import { Account } from "@toolpad/core/Account";
 import { useSession } from "../SessionContext";
+import { Box } from "@mui/material";
 
 function CustomAccount() {
   return (
@@ -36,9 +36,17 @@ export default function Layout() {
 
   return (
     <DashboardLayout slots={{ toolbarAccount: CustomAccount }}>
-      <PageContainer>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "calc(100vh - 65px)",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Outlet />
-      </PageContainer>
+      </Box>
     </DashboardLayout>
   );
 }

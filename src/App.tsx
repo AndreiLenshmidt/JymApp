@@ -11,6 +11,12 @@ import {
 } from "./firebase/auth";
 import SessionContext, { type Session } from "./SessionContext";
 import { useEffect, useMemo, useState } from "react";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 const NAVIGATION: Navigation = [
   {
@@ -18,18 +24,45 @@ const NAVIGATION: Navigation = [
     title: "Main items",
   },
   {
-    title: "Dashboard",
+    title: "Главная",
     icon: <DashboardIcon />,
   },
   {
-    segment: "orders",
-    title: "Orders",
-    icon: <ShoppingCartIcon />,
+    segment: "train",
+    title: "Тренировки",
+    icon: <FitnessCenterIcon />,
+  },
+  {
+    segment: "statistics",
+    title: "Статистика",
+    icon: <QueryStatsIcon />,
+  },
+  {
+    segment: "programm",
+    title: "Программа тренировок",
+    icon: <EditNoteIcon />,
+  },
+  {
+    segment: "options",
+    title: "Настройки",
+    icon: <ManageAccountsIcon />,
+  },
+  {
+    segment: "exersises",
+    title: "Упражнения",
+    icon: <SportsGymnasticsIcon />,
+  },
+  {
+    segment: "calendar",
+    title: "Календарь",
+    icon: <CalendarMonthIcon />,
   },
 ];
 
 const BRANDING = {
-  title: "My Toolpad Core App",
+  logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+  title: "", // Если передать пустую строку, то можно кастомизировать лого через img
+  homeUrl: "/toolpad/core/introduction",
 };
 
 const AUTHENTICATION: Authentication = {

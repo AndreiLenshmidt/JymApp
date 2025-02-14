@@ -4,9 +4,14 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./App";
 import Layout from "./layouts/dashboard";
 import DashboardPage from "./pages";
-import OrdersPage from "./pages/orders";
 import SignInPage from "./pages/signin";
-import NotFound from "./pages/NotFound";
+import TrainPage from "./pages/train";
+import StatisticPage from "./pages/statistics";
+import ProgrammPage from "./pages/programm";
+import OptionsPage from "./pages/options";
+import ExersisesPage from "./pages/exercises";
+import CalendarPage from "./pages/calendar";
+import NotFound from "./pages/notfound";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +26,28 @@ const router = createBrowserRouter([
             Component: DashboardPage,
           },
           {
-            path: "orders",
-            Component: OrdersPage,
+            path: "train",
+            Component: TrainPage,
+          },
+          {
+            path: "statistics",
+            Component: StatisticPage,
+          },
+          {
+            path: "programm",
+            Component: ProgrammPage,
+          },
+          {
+            path: "options",
+            Component: OptionsPage,
+          },
+          {
+            path: "exersises",
+            Component: ExersisesPage,
+          },
+          {
+            path: "calendar",
+            Component: CalendarPage,
           },
         ],
       },
