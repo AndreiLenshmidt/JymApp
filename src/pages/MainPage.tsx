@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { signout } from "../firebase-config";
 import { useJymAppStore } from "../store/store";
+import { signout } from "../firebase/firebaseAuth";
 
 export default function MainPage() {
   const setAuth = useJymAppStore((state) => state.setAuth);

@@ -20,8 +20,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router";
-import { signInUser } from "../../../firebase-config";
 import { useJymAppStore } from "../../../store/store";
+import { signInUser } from "../../../firebase/firebaseAuth";
 
 export default function LoginForm() {
   // Стейт для лоадера внутри кнопки "войти"
@@ -91,7 +91,7 @@ export default function LoginForm() {
       const token = await loginResponse.user.getIdToken();
       // Записываем поля accessToken, istAuth в наш store и в локальное хранилище
       setAuth(true);
-      setAccessToken(token);
+      // setAccessToken(token);
       // редиректим на нужную страницу
       navigate("/");
       // console.log(loginResponse);

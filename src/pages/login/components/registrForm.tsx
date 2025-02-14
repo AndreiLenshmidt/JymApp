@@ -19,8 +19,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router";
-import { signInUser } from "../../../firebase-config";
 import { useJymAppStore } from "../../../store/store";
+import { signInUser } from "../../../firebase/firebaseAuth";
 
 export default function RegistrationForm() {
   // Стейт для лоадера внутри кнопки "войти"

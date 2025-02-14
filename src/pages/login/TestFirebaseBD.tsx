@@ -72,15 +72,18 @@ export default function TestFirebaseBD() {
     remove(ref(db, path));
   };
 
+  
+
   return (
     <>
       <h2>Страница LoginPage вывод пользоваелей из БД</h2>
       <ul>
-        {Object.values(database).map((item, index) => (
-          <li key={index}>
-            {item.name} {item.email}
-          </li>
-        ))}
+        {database &&
+          Object.values(database).map((item, index) => (
+            <li key={index}>
+              {item.name} {item.email}
+            </li>
+          ))}
       </ul>
       <button
         onClick={() =>

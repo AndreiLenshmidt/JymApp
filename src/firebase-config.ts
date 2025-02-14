@@ -1,13 +1,7 @@
 import { initializeApp } from "firebase/app";
 // import { getFirestore } from "@firebase/firestore";
 import { getDatabase } from "firebase/database";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY, // исправить перенесть в .env
@@ -23,13 +17,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Экспортируем созданную БД
 export const db = getDatabase(app);
-// Экспортируем auth-методы созданные с помошью импортированных из Firebase методов
-export const createUser = async (email: string, password: string) => {
-  return createUserWithEmailAndPassword(getAuth(app), email, password);
-};
-export const signInUser = async (email: string, password: string) => {
-  return signInWithEmailAndPassword(getAuth(app), email, password);
-};
+// Экспортируем getAuth(app) в другие файлы
+export const firebaseAuth = getAuth(app);
+
 /* Слушатель состояния аутентификации, позволяет получить данные пользователя
 Для каждой из страниц вашего приложения, которым нужна информация о вошедшем в систему пользователе, прикрепите наблюдателя к глобальному объекту аутентификации. Этот наблюдатель вызывается всякий раз, когда изменяется состояние входа пользователя. 
 Когда пользователь успешно входит в систему, вы можете получить информацию о пользователе в наблюдателе. */
@@ -46,16 +36,3 @@ onAuthStateChanged(getAuth(), (user) => {
     console.log("User is signed out");
   }
 });
-
-export const signout = async () => {
-  signOut(getAuth())
-    .then(() => {
-      // Sign-out successful.
-      console.log("выход из учетки");
-    })
-    .catch((error) => {
-      // An error happened.
-      console.log(error);
-      console.log("выход из учетки не удался");
-    });
-};
