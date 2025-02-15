@@ -28,14 +28,14 @@ const NAVIGATION: Navigation = [
     icon: <DashboardIcon />,
   },
   {
+    segment: "calendar",
+    title: "Календарь",
+    icon: <CalendarMonthIcon />,
+  },
+  {
     segment: "train",
     title: "Тренировки",
     icon: <FitnessCenterIcon />,
-  },
-  {
-    segment: "statistics",
-    title: "Статистика",
-    icon: <QueryStatsIcon />,
   },
   {
     segment: "programm",
@@ -43,19 +43,19 @@ const NAVIGATION: Navigation = [
     icon: <EditNoteIcon />,
   },
   {
-    segment: "options",
-    title: "Настройки",
-    icon: <ManageAccountsIcon />,
-  },
-  {
     segment: "exersises",
     title: "Упражнения",
     icon: <SportsGymnasticsIcon />,
   },
   {
-    segment: "calendar",
-    title: "Календарь",
-    icon: <CalendarMonthIcon />,
+    segment: "statistics",
+    title: "Статистика",
+    icon: <QueryStatsIcon />,
+  },
+  {
+    segment: "options",
+    title: "Настройки",
+    icon: <ManageAccountsIcon />,
   },
 ];
 

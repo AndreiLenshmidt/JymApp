@@ -26,28 +26,28 @@ const router = createBrowserRouter([
             Component: DashboardPage,
           },
           {
-            path: "train",
-            Component: TrainPage,
+            path: "calendar",
+            Component: CalendarPage,
           },
           {
-            path: "statistics",
-            Component: StatisticPage,
+            path: "train",
+            Component: TrainPage,
           },
           {
             path: "programm",
             Component: ProgrammPage,
           },
           {
-            path: "options",
-            Component: OptionsPage,
-          },
-          {
             path: "exersises",
             Component: ExersisesPage,
           },
           {
-            path: "calendar",
-            Component: CalendarPage,
+            path: "statistics",
+            Component: StatisticPage,
+          },
+          {
+            path: "options",
+            Component: OptionsPage,
           },
         ],
       },
