@@ -1,6 +1,6 @@
 // import { Pagination } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import CalendarCustom from "../components/customCalendar";
+import CalendarCustom from "../components/calendarCompts/customCalendar";
 
 export default function CalendarPage() {
   return (
