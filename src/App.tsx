@@ -60,7 +60,7 @@ const NAVIGATION: Navigation = [
 ];
 
 const BRANDING = {
-  logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+  logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" width={45} />,
   title: "", // Если передать пустую строку, то можно кастомизировать лого через img
   homeUrl: "/toolpad/core/introduction",
 };

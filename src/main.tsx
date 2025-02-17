@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./App";
+import "./reset.css";
 import Layout from "./layouts/dashboard";
 import DashboardPage from "./pages";
 import SignInPage from "./pages/signin";
@@ -11,7 +12,7 @@ import ProgrammPage from "./pages/programm";
 import OptionsPage from "./pages/options";
 import ExersisesPage from "./pages/exercises";
 import CalendarPage from "./pages/calendar";
-import NotFound from "./pages/notfound";
+import NotFound from "./pages/notFound";
 
 const router = createBrowserRouter([
   {
