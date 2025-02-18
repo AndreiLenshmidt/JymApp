@@ -1,13 +1,24 @@
-import { Button, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import DayDescription from "./dayDescription";
-import type { pseudoTraidind } from "../../types";
-import CalendarTable from "./calendarTable";
+import type { TPseudoTraidind } from "../../types";
+
 import DescCalendar from "./descCalendar";
+import { CalendarTableMounth } from "./calendarTableMounth";
+import CalendarWeekTable from "./calendarWeekTable";
+import CalendarDayTable from "./clandarDayTable";
 
 const MOUNTH = [
   "Январь",
@@ -43,7 +54,7 @@ const getAllDays = (firstDayOfTable: Date) => {
   return allDays;
 };
 
-const pseudoTraidingInfo: pseudoTraidind = [
+const pseudoTraidingInfo: TPseudoTraidind = [
   {
     date: new Date(2025, 1, -4),
     status: "отдых",
@@ -194,7 +205,37 @@ const pseudoTraidingInfo: pseudoTraidind = [
     info: "сегодня тренировка",
     traidingName: "тренировка груди",
   },
+  {
+    date: new Date(2025, 1, 21),
+    status: "тренировка",
+    info: "сегодня тренировка",
+    traidingName: "тренировка груди",
+  },
+  {
+    date: new Date(2025, 1, 22),
+    status: "тренировка",
+    info: "сегодня тренировка",
+    traidingName: "тренировка груди",
+  },
+  {
+    date: new Date(2025, 1, 23),
+    status: "тренировка",
+    info: "сегодня тренировка",
+    traidingName: "тренировка груди",
+  },
+  {
+    date: new Date(2025, 1, 24),
+    status: "тренировка",
+    info: "сегодня тренировка",
+    traidingName: "тренировка груди",
+  },
 ];
+
+const flexCenter = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
 
 export default function CalendarCustom() {
   const [mounth, setMounth] = useState<number>(currentDay.getMonth());
@@ -233,48 +274,70 @@ export default function CalendarCustom() {
       setAllDays(getAllDays(getFirstDay(currentDay.getFullYear(), mounth - 1)));
     }
   };
+  const [value, setValue] = useState("one");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   return (
     <div>
       <Paper
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          ...flexCenter,
           mb: 1,
           boxShadow: "0 0 2px 1px #c5c5c5",
         }}
       >
-        <IconButton
-          aria-label="arrowback"
-          size="large"
-          onClick={decreaseMounth}
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="wrapped label tabs example"
+          centered
+          sx={{ mb: 1 }}
         >
-          <ArrowBackIosIcon />
-        </IconButton>
-        <Typography component="p" width={100} textAlign="center">
-          {MOUNTH[mounth]}
-        </Typography>
-        <IconButton
-          aria-label="arrowforward"
-          size="large"
-          onClick={increaseMounth}
-        >
-          <ArrowForwardIosIcon />
-        </IconButton>
+          <Tab value="three" label="День" />
+          <Tab value="two" label="Неделя" />
+          <Tab value="one" label="Месяц" />
+        </Tabs>
       </Paper>
       <Paper sx={{ boxShadow: "0 0 2px 1px #c5c5c5" }}>
-        <Typography padding="10px 32px">
-          {MOUNTH[mounth]} {currentDay.getFullYear()}
-        </Typography>
-        <CalendarTable
-          pseudoTraidingInfo={pseudoTraidingInfo}
-          mounth={mounth}
-          allDays={allDays}
-          setTrainInfo={setTrainInfo}
-          currentDay={currentDay}
-          today={today}
-        />
+        <Box sx={flexCenter}>
+          <IconButton
+            aria-label="arrowback"
+            size="large"
+            onClick={decreaseMounth}
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+          <Typography component="p" width={150} textAlign="center">
+            {MOUNTH[mounth]} {currentDay.getFullYear()}
+          </Typography>
+          <IconButton
+            aria-label="arrowforward"
+            size="large"
+            onClick={increaseMounth}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
+        </Box>
+        {value === "one" ? (
+          <CalendarTableMounth
+            pseudoTraidingInfo={pseudoTraidingInfo}
+            mounth={mounth}
+            allDays={allDays}
+            setTrainInfo={setTrainInfo}
+            currentDay={currentDay}
+            today={today}
+          />
+        ) : value === "two" ? (
+          <CalendarWeekTable
+            trainInfo={pseudoTraidingInfo}
+            currentDay={tranInfo.date}
+          />
+        ) : (
+          <CalendarDayTable />
+        )}
       </Paper>
       <Paper
         sx={{

@@ -5,8 +5,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useState } from "react";
-import type { pseudoTraidind } from "../../types";
+import { memo, useState } from "react";
+import type { TPseudoTraidind } from "../../types";
 
 const DAYS = [
   { day: "ПН", idx: 1 },
@@ -66,7 +66,7 @@ const ceilGetStyles = (i: Date, today: Date, status: string) => {
   }
 };
 
-export default function CalendarTable({
+const CalendarTableMounth = memo(function CalendarTableMounth({
   pseudoTraidingInfo,
   mounth,
   allDays,
@@ -74,7 +74,7 @@ export default function CalendarTable({
   currentDay,
   today,
 }: {
-  pseudoTraidingInfo: pseudoTraidind;
+  pseudoTraidingInfo: TPseudoTraidind;
   mounth: number;
   allDays: [Date];
   setTrainInfo: CallableFunction;
@@ -174,7 +174,10 @@ export default function CalendarTable({
                 sx={ceilGetStyles(i, today, getStatus(i, +item, index))}
               >
                 <p>{i.getDate()}</p>
-                <p> {getStatus(i, +item, index)}</p>
+                <p style={{ fontSize: "12px" }}>
+                  {" "}
+                  {getStatus(i, +item, index)}
+                </p>
               </TableCell>
             ))}
           </TableRow>
@@ -182,4 +185,6 @@ export default function CalendarTable({
       </TableBody>
     </Table>
   );
-}
+});
+
+export { CalendarTableMounth };
