@@ -1,5 +1,4 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Outlet } from "react-router";
 import type { User } from "firebase/auth";
 import { ReactRouterAppProvider } from "@toolpad/core/react-router";
@@ -60,7 +59,7 @@ const NAVIGATION: Navigation = [
 ];
 
 const BRANDING = {
-  logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" width={45} />,
+  logo: <img src="/logo.png" alt="MUI logo" width={45} />,
   title: "", // Если передать пустую строку, то можно кастомизировать лого через img
   homeUrl: "/toolpad/core/introduction",
 };

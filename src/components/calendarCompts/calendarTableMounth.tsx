@@ -6,81 +6,19 @@ import {
   TableRow,
 } from "@mui/material";
 import { memo, useState } from "react";
-import type { TPseudoTraidind } from "../../types";
+import { useJymAppStore } from "../../store/store";
+import { ceilGetStyles, tableHeadStyles } from "./styles";
 
-const DAYS = [
-  { day: "ПН", idx: 1 },
-  { day: "ВТ", idx: 2 },
-  { day: "СР", idx: 3 },
-  { day: "ЧТ", idx: 4 },
-  { day: "ПТ", idx: 5 },
-  { day: "СБ", idx: 6 },
-  { day: "ВС", idx: 0 },
-];
-// Стили для ячеек таблицы
-const tableCeil = {
-  padding: "5px",
-  borderRight: "1px solid var(--mui-palette-TableCell-border)",
-  borderLeft: "1px solid var(--mui-palette-TableCell-border)",
-  cursor: "pointer",
-  height: "51px",
-  verticalAlign: "top",
-  boxSizing: "border-box",
-  width: "90px",
-  userSelect: "none",
-};
-const defaultTCeil = {
-  backgroundColor: "light-dark( #cfceff, #41406f)",
-  ...tableCeil,
-};
-const baseTCeil = {
-  backgroundColor: "light-dark( #ededed, #696969)",
-  ...tableCeil,
-};
-const currentTCeil = {
-  backgroundColor: "light-dark( #fffa90, #758100)",
-  ...tableCeil,
-  borderLeft: "3px solid #ff5e5e",
-};
-const trainTCeil = {
-  backgroundColor: "light-dark( #68ddb0, #48876f)",
-  ...tableCeil,
-};
-const cancelTCeil = {
-  backgroundColor: "light-dark( #ffa6a6, #9f3939)",
-  ...tableCeil,
-};
-const ceilGetStyles = (i: Date, today: Date, status: string) => {
-  if (
-    i.getDate() === today.getDate() &&
-    i.getMonth() === today.getMonth() &&
-    i.getFullYear() === today.getFullYear()
-  ) {
-    return currentTCeil;
-  } else if (status === "тренировка") {
-    return trainTCeil;
-  } else if (status === "отменена") {
-    return cancelTCeil;
-  } else {
-    return i.getMonth() !== today.getMonth() ? baseTCeil : defaultTCeil;
-  }
-};
-
-const CalendarTableMounth = memo(function CalendarTableMounth({
-  pseudoTraidingInfo,
-  mounth,
-  allDays,
-  setTrainInfo,
-  currentDay,
-  today,
-}: {
-  pseudoTraidingInfo: TPseudoTraidind;
-  mounth: number;
-  allDays: [Date];
-  setTrainInfo: CallableFunction;
-  currentDay: Date;
-  today: Date;
-}) {
+const CalendarTableMounth = memo(function CalendarTableMounth() {
+  const setTrainInfo = useJymAppStore((store) => store.setTrainInfo);
+  const pseudoTraidingInfo = useJymAppStore(
+    (store) => store.pseudoTraidingInfo
+  );
+  const RUDAYSOFWEEK = useJymAppStore((store) => store.RUDAYSOFWEEK);
+  const currentDay = useJymAppStore((store) => store.currentDay);
+  const allDays = useJymAppStore((store) => store.allDays);
+  const today = new Date(Date.now());
+  const mounth = useJymAppStore((store) => store.mounth);
   const [border, setBorder] = useState<HTMLElement | null>(null);
 
   const highlightCeil = (element: HTMLElement | null) => {
@@ -89,6 +27,7 @@ const CalendarTableMounth = memo(function CalendarTableMounth({
     element?.setAttribute("style", "outline: 2px solid #6f63fb");
     // console.dir(element);
   };
+
   const showDateInfo = (
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     row: number
@@ -150,16 +89,8 @@ const CalendarTableMounth = memo(function CalendarTableMounth({
     <Table>
       <TableHead>
         <TableRow>
-          {DAYS.map((item) => (
-            <TableCell
-              sx={{
-                backgroundColor: "light-dark( #d9ffca, #336f35)",
-                padding: "16px 32px",
-                borderBottomWidth: "3px",
-                userSelect: "none",
-              }}
-              key={item.day + 112}
-            >
+          {RUDAYSOFWEEK.map((item) => (
+            <TableCell sx={tableHeadStyles} key={item.day + 112}>
               {item.day}
             </TableCell>
           ))}

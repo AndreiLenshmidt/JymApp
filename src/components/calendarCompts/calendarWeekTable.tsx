@@ -1,14 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import { TPseudoTraidind } from "../../types";
 import { useEffect, useState } from "react";
+import { useJymAppStore } from "../../store/store";
 
-export default function CalendarWeekTable({
-  trainInfo,
-  currentDay,
-}: {
-  trainInfo: TPseudoTraidind;
-  currentDay: Date;
-}) {
+export default function CalendarWeekTable() {
+  const pseudoTraidingInfo = useJymAppStore(
+    (store) => store.pseudoTraidingInfo
+  );
+  const currentDay = useJymAppStore((store) => store.tranInfo.date);
   useEffect(() => {
     const elem = document.querySelector("[data-scroll-into-view=true]");
     elem?.scrollIntoView({ block: "center" });
@@ -35,7 +33,7 @@ export default function CalendarWeekTable({
     const element = e.target as HTMLElement;
     // const parent = element.parentElement;
     if (element.tagName === "P") {
-      // parent?.dataset.index && console.log(trainInfo[+parent.dataset.index]);
+      // parent?.dataset.index && console.log(pseudoTraidingInfo[+parent.dataset.index]);
       element.parentElement && setChooDay(element.parentElement.dataset.index);
     } else {
       setChooDay(element.dataset.index);
@@ -51,7 +49,7 @@ export default function CalendarWeekTable({
       }}
       onClick={(e) => chooseDay(e)}
     >
-      {trainInfo.map((item, index) => (
+      {pseudoTraidingInfo.map((item, index) => (
         <Box
           key={item.date.getDate() + 1253}
           sx={
