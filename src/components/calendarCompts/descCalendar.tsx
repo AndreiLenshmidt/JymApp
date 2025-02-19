@@ -1,15 +1,8 @@
 import { Box, Typography } from "@mui/material";
-
-const DESCRIPT = [
-  { color: "light-dark( #68ddb0, #48876f)", desc: "День тренировки" },
-  {
-    color: "light-dark( #ffa6a6, #9f3939)",
-    desc: "Тренировка пропущена или отменена",
-  },
-  { color: "light-dark( #cfceff, #41406f)", desc: "День не распланирован" },
-];
+import { useJymAppStore } from "../../store/store";
 
 export default function DescCalendar() {
+  const CALENDARDESCR = useJymAppStore((store) => store.CALENDARDESCR);
   return (
     <Box
       sx={{
@@ -20,7 +13,7 @@ export default function DescCalendar() {
         mt: 1,
       }}
     >
-      {DESCRIPT.map((item) => (
+      {CALENDARDESCR.map((item) => (
         <Box display="flex" key={item.color + "#$%%"} flexBasis="33%">
           <Box
             sx={{

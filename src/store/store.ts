@@ -7,6 +7,7 @@ interface IJymAppStore {
   pseudoTraidingInfo: TPseudoTraidind;
   MOUNTH: Array<string>;
   RUDAYSOFWEEK: Array<{ day: string; idx: number }>;
+  CALENDARDESCR: Array<{ color: string; desc: string }>;
   mounth: number;
   setMounth: (mounth: number) => void;
   increaseMounth: (mounth: number) => void;
@@ -242,6 +243,14 @@ export const useJymAppStore = create<IJymAppStore>()(
       { day: "ПТ", idx: 5 },
       { day: "СБ", idx: 6 },
       { day: "ВС", idx: 0 },
+    ],
+    CALENDARDESCR: [
+      { color: "light-dark( #68ddb0, #48876f)", desc: "День тренировки" },
+      {
+        color: "light-dark( #ffa6a6, #9f3939)",
+        desc: "Тренировка пропущена или отменена",
+      },
+      { color: "light-dark( #cfceff, #41406f)", desc: "День не распланирован" },
     ],
     mounth: currentDay.getMonth(),
     setMounth: (mounth) => set({ mounth: mounth }),

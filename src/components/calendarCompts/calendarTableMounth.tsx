@@ -5,7 +5,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useJymAppStore } from "../../store/store";
 import { ceilGetStyles, tableHeadStyles } from "./styles";
 
@@ -19,21 +19,28 @@ const CalendarTableMounth = memo(function CalendarTableMounth() {
   const allDays = useJymAppStore((store) => store.allDays);
   const today = new Date(Date.now());
   const mounth = useJymAppStore((store) => store.mounth);
-  const [border, setBorder] = useState<HTMLElement | null>(null);
+  const [border, setBorder] = useState<Element | null>(
+    document.querySelector("[data-today=true]")
+  );
 
-  const highlightCeil = (element: HTMLElement | null) => {
+  useEffect(() => {
+    const elem = document.querySelector("[data-today=true]");
+    const click = new Event("click");
+    elem && showDateInfo(click, elem);
+  }, []);
+
+  const highlightCeil = (element: Element | null) => {
     border?.setAttribute("style", "");
     setBorder(element);
     element?.setAttribute("style", "outline: 2px solid #6f63fb");
-    // console.dir(element);
   };
 
   const showDateInfo = (
-    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    row: number
+    e: React.MouseEvent<HTMLTableSectionElement, MouseEvent> | Event,
+    elem?: Element
   ) => {
-    const element = e.target as HTMLElement;
-    const parentElement = element.parentElement;
+    const element = (elem || e?.target) as HTMLElement;
+    const parentElement = element?.parentElement;
     const getDefaultTrain = (date: Date) => {
       return {
         date: date,
@@ -43,38 +50,23 @@ const CalendarTableMounth = memo(function CalendarTableMounth() {
       };
     };
 
-    if (element.tagName !== "P" && element.tagName !== "TD") return;
-    if (element.tagName === "TD") {
-      highlightCeil(element);
-    } else {
+    if (element && element.tagName === "P" && parentElement?.dataset.idxCeil) {
       highlightCeil(parentElement);
-    }
-
-    const index =
-      parseInt(element?.textContent || "NAN") ||
-      parseInt(parentElement?.textContent || "NAN");
-
-    if (row < 4) {
-      const date = allDays.findIndex((item) => index === item.getDate());
-      setTrainInfo(
-        mounth === today.getMonth()
-          ? pseudoTraidingInfo[date] ||
-              getDefaultTrain(new Date(currentDay.getFullYear(), mounth, index))
-          : getDefaultTrain(new Date(currentDay.getFullYear(), mounth, index))
-      );
-      // console.log(pseudoTraidingInfo[date]);
+      mounth === currentDay.getMonth() &&
+      pseudoTraidingInfo[+parentElement.dataset.idxCeil]
+        ? setTrainInfo(pseudoTraidingInfo[+parentElement.dataset.idxCeil])
+        : setTrainInfo(
+            getDefaultTrain(allDays[+parentElement?.dataset.idxCeil])
+          );
+    } else if (element && element.tagName === "TD" && element.dataset.idxCeil) {
+      // console.log(element.dataset.idxCeil);
+      highlightCeil(element);
+      mounth === currentDay.getMonth() &&
+      pseudoTraidingInfo[+element.dataset.idxCeil]
+        ? setTrainInfo(pseudoTraidingInfo[+element.dataset.idxCeil])
+        : setTrainInfo(getDefaultTrain(allDays[+element.dataset.idxCeil]));
     } else {
-      const date = allDays.findLastIndex((item) => index === item.getDate());
-      setTrainInfo(
-        pseudoTraidingInfo[date] ||
-          getDefaultTrain(
-            new Date(
-              today.getFullYear(),
-              index < 20 ? mounth + 1 : mounth,
-              index
-            )
-          )
-      );
+      return;
     }
   };
 
@@ -96,11 +88,16 @@ const CalendarTableMounth = memo(function CalendarTableMounth() {
           ))}
         </TableRow>
       </TableHead>
-      <TableBody>
+      <TableBody id="table-body" onClick={(e) => showDateInfo(e)}>
         {"012345".split("").map((item) => (
-          <TableRow key={+item * 12} onClick={(e) => showDateInfo(e, +item)}>
+          <TableRow key={+item * 12}>
             {allDays.slice(+item * 7, +item * 7 + 7).map((i, index) => (
               <TableCell
+                data-idx-ceil={+item * 7 + index}
+                data-today={
+                  i.getMonth() === today.getMonth() &&
+                  i.getDate() === today.getDate()
+                }
                 key={index + 1234}
                 sx={ceilGetStyles(i, today, getStatus(i, +item, index))}
               >
