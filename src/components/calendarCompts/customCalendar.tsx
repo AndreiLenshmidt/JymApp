@@ -1,7 +1,10 @@
 import {
+  Backdrop,
   Box,
   Button,
+  Fade,
   IconButton,
+  Modal,
   Paper,
   Tab,
   Tabs,
@@ -18,7 +21,10 @@ import { CalendarTableMounth } from "./calendarTableMounth";
 import CalendarWeekTable from "./calendarWeekTable";
 import CalendarDayTable from "./clandarDayTable";
 import { useJymAppStore } from "../../store/store";
-import { dayDescBoxStyles, flexCenter } from "./styles";
+import { dayDescBoxStyles, flexCenter, modalStyle } from "./styles";
+import { useModal } from "./useModal";
+import { createPortal } from "react-dom";
+import ChangeTrainInfo from "./changeTrainInfo";
 
 export default function CalendarCustom() {
   const currentDay = useJymAppStore((store) => store.currentDay);
@@ -28,6 +34,7 @@ export default function CalendarCustom() {
   const decreaseMounth = useJymAppStore((store) => store.decreaseMounth);
 
   const [value, setValue] = useState("one");
+  const { open, handleOpen, handleClose } = useModal();
 
   return (
     <div>
@@ -51,7 +58,7 @@ export default function CalendarCustom() {
         </Tabs>
       </Paper>
       <Paper sx={{ boxShadow: "0 0 2px 1px #c5c5c5" }}>
-        <Box sx={flexCenter}>
+        <Box sx={value === "one" ? flexCenter : { display: "none" }}>
           <IconButton
             aria-label="arrowback"
             size="large"
@@ -84,13 +91,42 @@ export default function CalendarCustom() {
           <Button
             variant="outlined"
             sx={{ height: "36px", display: "block", mb: "15px" }}
+            onClick={handleOpen}
           >
             <EditNoteIcon />
           </Button>
-          <Button variant="outlined" sx={{ height: "36px", display: "block" }}>
+          <Button
+            variant="outlined"
+            sx={{ height: "36px", display: "block" }}
+            onClick={handleOpen}
+          >
             <EditCalendarIcon />
           </Button>
         </div>
+        {createPortal(
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{
+              backdrop: {
+                timeout: 500,
+              },
+            }}
+          >
+            <Fade in={open}>
+              <Box sx={modalStyle}>
+                <DayDescription />
+                <ChangeTrainInfo />
+              </Box>
+            </Fade>
+          </Modal>,
+          document.body,
+          "createTrain"
+        )}
       </Paper>
       <DescCalendar />
     </div>

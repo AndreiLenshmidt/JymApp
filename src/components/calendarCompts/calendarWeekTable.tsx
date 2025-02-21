@@ -2,50 +2,63 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useJymAppStore } from "../../store/store";
 
+// стили для таблицы
+const tableDay = {
+  height: "52px",
+  padding: "10px",
+  borderBottom: "1px solid #000",
+  backgroundColor: "light-dark(#ededed, #696969)",
+  userSelect: "none",
+};
+const tableDayTrain = {
+  ...tableDay,
+  backgroundColor: "light-dark( #68ddb0, #48876f)",
+};
+const tableDayCancel = {
+  ...tableDay,
+  backgroundColor: "light-dark( #ffa6a6, #9f3939)",
+};
+
 export default function CalendarWeekTable() {
   const pseudoTraidingInfo = useJymAppStore(
     (store) => store.pseudoTraidingInfo
   );
   const currentDay = useJymAppStore((store) => store.tranInfo.date);
+  const [choosenDay, setChoosenDay] = useState<Element | null>(null);
+  const setTrainInfo = useJymAppStore((store) => store.setTrainInfo);
+
+  const highlightCeil = (element: Element | null) => {
+    choosenDay?.setAttribute("style", "");
+    setChoosenDay(element);
+    element?.setAttribute("style", "outline: 2px solid #6f63fb");
+  };
+
   useEffect(() => {
     const elem = document.querySelector("[data-scroll-into-view=true]");
     elem?.scrollIntoView({ block: "center" });
+    highlightCeil(elem);
   }, []);
-  // стили для таблицы
-  const tableDay = {
-    height: "52px",
-    padding: "10px",
-    borderBottom: "1px solid #000",
-    backgroundColor: "light-dark(#ededed, #696969)",
-  };
-  const tableDayTrain = {
-    ...tableDay,
-    backgroundColor: "light-dark( #68ddb0, #48876f)",
-  };
-  const tableDayCancel = {
-    ...tableDay,
-    backgroundColor: "light-dark( #ffa6a6, #9f3939)",
-  };
-
-  const [choosenDay, setChooDay] = useState<string | undefined>("0");
 
   const chooseDay = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.target as HTMLElement;
-    // const parent = element.parentElement;
     if (element.tagName === "P") {
-      // parent?.dataset.index && console.log(pseudoTraidingInfo[+parent.dataset.index]);
-      element.parentElement && setChooDay(element.parentElement.dataset.index);
+      element.parentElement && highlightCeil(element.parentElement);
+      element?.parentElement?.dataset.index &&
+        setTrainInfo(pseudoTraidingInfo[+element.parentElement.dataset.index]);
     } else {
-      setChooDay(element.dataset.index);
+      highlightCeil(element);
+      element?.dataset?.index &&
+        setTrainInfo(pseudoTraidingInfo[+element.dataset.index]);
     }
   };
 
   return (
     <Box
       sx={{
-        height: "364px",
-        maxWidth: "631",
+        height: "412px",
+        maxWidth: "631px",
         overflowY: "scroll",
+        padding: "2px",
       }}
       onClick={(e) => chooseDay(e)}
     >
