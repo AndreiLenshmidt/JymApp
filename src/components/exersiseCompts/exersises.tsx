@@ -1,37 +1,90 @@
-const STANDARTEXERSISES = [
-  {
-    name: "Подъем гантелей на бицепс стоя",
-    type: "Упражнения с отягощением", /// собственный вес
-    positions: "Стоя", // Сидя, лежа, в наклоне 45град,
-    simulator: "Отсутсвуем", // Турник, брусья прочие тренажеры
-    outfit: "Гантеля",
-    main_muscle_group: "Бицепс",
-    musclu_groups: ["Бицепс", "Предплечие", "Спина"],
-    approaches: [
-      {
-        iteration: "свое кол",
-        weight: "свой рабочий вес",
-        rest: "свое время",
-      },
-      {
-        iteration: "свое кол",
-        weight: "свой рабочий вес",
-        rest: "свое время",
-      },
-    ],
-    description:
-      "Встаньте прямо, отведите логти немного вперед и слегда уприте в живот. Далее выполняйте сгибание рук в логтевых суставах не выше чем до уровня груди, и плавно опускайте вниз до комфортного разгибания",
-    image_schem: "схема на картинке",
-    animation: "анимация движения svg-качка",
-  },
-];
-
-// Можно создать карты всех названий, типов и тд а в базе хранить только цифровые сочетания как базовые упражнения
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
+import { useJymAppStore } from "../../store/store";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddIcon from "@mui/icons-material/Add";
+import Checkbox from "@mui/material/Checkbox";
+import { Link } from "react-router";
 
 export default function ExersiseList() {
+  const STANDARTEXERSISES = useJymAppStore((store) => store.STANDARTEXERSISES);
+  const userProgrammExersises = useJymAppStore(
+    (store) => store.userProgrammExersises
+  );
+  const setUserExersises = useJymAppStore((store) => store.setUserExersises);
+
+  const handleChange = (id: number) => {
+    userProgrammExersises[id].inprogramm =
+      !userProgrammExersises[id].inprogramm;
+    setUserExersises([...userProgrammExersises]);
+  };
+
   return (
-    <>
-      <h1> ExersiseList</h1>
-    </>
+    <Paper variant="outlined" sx={{ padding: "10px" }}>
+      <Typography sx={{ m: 2, textAlign: "center" }}>УПРАЖНЕНИЯ</Typography>
+      <Box sx={{ height: "440px", overflow: "hidden", overflowY: "scroll" }}>
+        <Box m={1}>
+          {STANDARTEXERSISES.map((item) => (
+            <Paper
+              key={item.name + item.id}
+              elevation={3}
+              sx={{
+                width: "300px",
+                padding: "10px",
+                minHeight: "48px",
+                mb: "5px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography width="190px">{item.name}</Typography>
+              {/* <Typography>{item.main_muscle_group}</Typography> */}
+
+              <Box display={"flex"} alignItems={"center"}>
+                <Link to={`${item.id}`}>
+                  <IconButton aria-label="settings">
+                    <SettingsIcon />
+                  </IconButton>
+                </Link>
+                <Checkbox
+                  // defaultChecked={programmExersises[item.id].inprogramm}
+                  checked={userProgrammExersises[item.id].inprogramm}
+                  onChange={() => handleChange(item.id)}
+                  color="success"
+                />
+              </Box>
+            </Paper>
+          ))}
+        </Box>
+      </Box>
+      <Paper
+        elevation={3}
+        variant="outlined"
+        sx={{
+          padding: "0 10px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: 1,
+          mt: 6,
+        }}
+      >
+        <Typography component={"span"} sx={{ userSelect: "none" }}>
+          Создать упражнение
+        </Typography>
+        <Link to={"create"}>
+          <IconButton aria-label="settings">
+            <AddIcon />
+          </IconButton>
+        </Link>
+      </Paper>
+      <Box
+        m={1}
+        pt={2}
+        sx={{ m: 1, pt: 2, display: "flex", justifyContent: "space-between" }}
+      >
+        <Button variant="outlined">Сохранить</Button>
+        <Button variant="outlined">Отменить</Button>
+      </Box>
+    </Paper>
   );
 }

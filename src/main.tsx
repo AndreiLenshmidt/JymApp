@@ -12,7 +12,9 @@ import ProgrammPage from "./pages/programm";
 import OptionsPage from "./pages/options";
 import ExersisesPage from "./pages/exercises";
 import CalendarPage from "./pages/calendar";
-import NotFound from "./pages/notFound";
+import NotFound from "./pages/notfound";
+import ExersiseOptions from "./components/exersiseCompts/exersiseOptions";
+import CreateExersise from "./components/exersiseCompts/createExersise";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
           {
             path: "exersises",
             Component: ExersisesPage,
+          },
+          {
+            path: "exersises/:id",
+            Component: ExersiseOptions,
+          },
+          {
+            path: "exersises/create",
+            Component: CreateExersise,
           },
           {
             path: "statistics",

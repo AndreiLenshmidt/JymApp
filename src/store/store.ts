@@ -1,6 +1,11 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { TPseudoTraidind, TTrainInfo } from "../types";
+// import { persist } from "zustand/middleware";
+import {
+  TExersise,
+  TPseudoTraidind,
+  TTrainInfo,
+  TUserTrainExersises,
+} from "../types";
 
 interface IJymAppStore {
   currentDay: Date;
@@ -8,6 +13,7 @@ interface IJymAppStore {
   MOUNTH: Array<string>;
   RUDAYSOFWEEK: Array<{ day: string; idx: number }>;
   CALENDARDESCR: Array<{ color: string; desc: string }>;
+  STANDARTEXERSISES: Array<TExersise>;
   mounth: number;
   setMounth: (mounth: number) => void;
   increaseMounth: (mounth: number) => void;
@@ -18,6 +24,8 @@ interface IJymAppStore {
   setAllDays: (allDays: [Date]) => void;
   tranInfo: TTrainInfo;
   setTrainInfo: (train: TTrainInfo) => void;
+  userProgrammExersises: TUserTrainExersises;
+  setUserExersises: (exersises: TUserTrainExersises) => void;
 }
 
 const currentDay = new Date(Date.now());
@@ -252,6 +260,216 @@ export const useJymAppStore = create<IJymAppStore>()(
       },
       { color: "light-dark( #cfceff, #41406f)", desc: "День не распланирован" },
     ],
+    STANDARTEXERSISES: [
+      {
+        id: 0,
+        name: "Подъем гантелей на бицепс стоя",
+        type: "Упражнения с отягощением", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Отсутсвуем", // Турник, брусья прочие тренажеры
+        outfit: "Гантеля",
+        main_muscle_group: "Бицепс",
+        musclu_groups: ["Бицепс", "Предплечие", "Спина"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Встаньте прямо, отведите логти немного вперед и слегда уприте в живот. Далее выполняйте сгибание рук в логтевых суставах не выше чем до уровня груди, и плавно опускайте вниз до комфортного разгибания",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 1,
+        name: "Подъем штанги на бицепс стоя",
+        type: "Упражнения с отягощением", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Отсутсвуем", // Турник, брусья прочие тренажеры
+        outfit: "Штанга (прямой гриф)",
+        main_muscle_group: "Бицепс",
+        musclu_groups: ["Бицепс", "Предплечие", "Спина"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Встаньте прямо, отведите логти немного вперед и слегда уприте в живот. Далее выполняйте сгибание рук в логтевых суставах не выше чем до уровня груди, и плавно опускайте вниз до комфортного разгибания",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 2,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 3,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 4,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 5,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 6,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+      {
+        id: 7,
+        name: "Отжимания на брусьях",
+        type: "Упражнения с собственным весом", /// собственный вес
+        positions: "Стоя", // Сидя, лежа, в наклоне 45град,
+        simulator: "Брусья", // Турник, брусья прочие тренажеры
+        outfit: "",
+        main_muscle_group: "Грудь",
+        musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
+        approaches: [
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+          {
+            iteration: "свое кол",
+            weight: 0,
+            rest: 0,
+          },
+        ],
+        description:
+          "Вертикально зависните на брусьях. Плавно опускайтесь вниз при помоши сгибания рук на 90 град, затем поднимитесь вертикально вверх",
+        image_schem: "схема на картинке",
+        animation: "анимация движения svg-качка",
+      },
+    ],
     mounth: currentDay.getMonth(),
     setMounth: (mounth) => set({ mounth: mounth }),
     increaseMounth: (mounth: number) => {
@@ -307,6 +525,17 @@ export const useJymAppStore = create<IJymAppStore>()(
       traidingName: "",
     },
     setTrainInfo: (trainInfo) => set({ tranInfo: trainInfo }),
+    userProgrammExersises: [
+      { id: 0, inprogramm: true },
+      { id: 1, inprogramm: false },
+      { id: 2, inprogramm: false },
+      { id: 3, inprogramm: false },
+      { id: 4, inprogramm: false },
+      { id: 5, inprogramm: false },
+      { id: 6, inprogramm: false },
+      { id: 7, inprogramm: false },
+    ],
+    setUserExersises: (exersises) => set({ userProgrammExersises: exersises }),
   })
   // {
   //   name: "jym-store",

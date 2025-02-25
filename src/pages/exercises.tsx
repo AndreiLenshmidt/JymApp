@@ -4,8 +4,9 @@ import ExersiseList from "../components/exersiseCompts/exersises";
 export default function ExersisesPage() {
   return (
     <>
-      <Typography>Welcome to the ExersisesPage!</Typography>
+      <Typography mt={2}>Приветсвие на странице упражнений</Typography>
       <ExersiseList />
+      <p></p>
     </>
   );
 }
