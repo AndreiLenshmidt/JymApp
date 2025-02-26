@@ -7,8 +7,8 @@ export type TTrainInfo = {
   traidingName: string;
 };
 
-type TApproaches = {
-  iteration: string;
+export type TApproaches = {
+  iteration: number;
   weight: number;
   rest: number;
 };

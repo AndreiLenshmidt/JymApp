@@ -1,10 +1,12 @@
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 // import { persist } from "zustand/middleware";
 import {
   TExersise,
   TPseudoTraidind,
   TTrainInfo,
   TUserTrainExersises,
+  TApproaches,
 } from "../types";
 
 interface IJymAppStore {
@@ -14,6 +16,31 @@ interface IJymAppStore {
   RUDAYSOFWEEK: Array<{ day: string; idx: number }>;
   CALENDARDESCR: Array<{ color: string; desc: string }>;
   STANDARTEXERSISES: Array<TExersise>;
+  delMuscleGrop: (item: string, id: number) => void;
+  addMuscleGroup: (muscle: string, id: number) => void;
+  addApproach: (approch: TApproaches, id: number) => void;
+  delApproach: (idExersise: number, idApproach: number) => void;
+  changeApproachCount: (
+    count: number,
+    idExersise: number,
+    idApproach: number
+  ) => void;
+  changeApproachWeight: (
+    weight: number,
+    idExersise: number,
+    idApproach: number
+  ) => void;
+  changeApproachRest: (
+    rest: number,
+    idExersise: number,
+    idApproach: number
+  ) => void;
+  setMainMuscle: (main: string, id: number) => void;
+  setOutfit: (outfit: string, id: number) => void;
+  setPosition: (position: string, id: number) => void;
+  setSimulator: (simulator: string, id: number) => void;
+  setExersiseType: (type: string, id: number) => void;
+  setExersiseName: (name: string, id: number) => void;
   mounth: number;
   setMounth: (mounth: number) => void;
   increaseMounth: (mounth: number) => void;
@@ -25,7 +52,7 @@ interface IJymAppStore {
   tranInfo: TTrainInfo;
   setTrainInfo: (train: TTrainInfo) => void;
   userProgrammExersises: TUserTrainExersises;
-  setUserExersises: (exersises: TUserTrainExersises) => void;
+  setUserExersisList: (id: number) => void;
 }
 
 const currentDay = new Date(Date.now());
@@ -51,7 +78,7 @@ const getAllDays = (firstDayOfTable: Date) => {
 
 export const useJymAppStore = create<IJymAppStore>()(
   // persist(
-  (set) => ({
+  immer((set) => ({
     currentDay: currentDay,
     pseudoTraidingInfo: [
       {
@@ -266,18 +293,18 @@ export const useJymAppStore = create<IJymAppStore>()(
         name: "Подъем гантелей на бицепс стоя",
         type: "Упражнения с отягощением", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
-        simulator: "Отсутсвуем", // Турник, брусья прочие тренажеры
+        simulator: "Отсутсвует", // Турник, брусья прочие тренажеры
         outfit: "Гантеля",
         main_muscle_group: "Бицепс",
         musclu_groups: ["Бицепс", "Предплечие", "Спина"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -292,18 +319,18 @@ export const useJymAppStore = create<IJymAppStore>()(
         name: "Подъем штанги на бицепс стоя",
         type: "Упражнения с отягощением", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
-        simulator: "Отсутсвуем", // Турник, брусья прочие тренажеры
+        simulator: "Отсутсвует", // Турник, брусья прочие тренажеры
         outfit: "Штанга (прямой гриф)",
         main_muscle_group: "Бицепс",
         musclu_groups: ["Бицепс", "Предплечие", "Спина"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -319,17 +346,17 @@ export const useJymAppStore = create<IJymAppStore>()(
         type: "Упражнения с собственным весом", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
         simulator: "Брусья", // Турник, брусья прочие тренажеры
-        outfit: "",
+        outfit: "Отсутсвует",
         main_muscle_group: "Грудь",
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -345,17 +372,17 @@ export const useJymAppStore = create<IJymAppStore>()(
         type: "Упражнения с собственным весом", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
         simulator: "Брусья", // Турник, брусья прочие тренажеры
-        outfit: "",
+        outfit: "Отсутсвует",
         main_muscle_group: "Грудь",
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -376,12 +403,12 @@ export const useJymAppStore = create<IJymAppStore>()(
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -397,17 +424,17 @@ export const useJymAppStore = create<IJymAppStore>()(
         type: "Упражнения с собственным весом", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
         simulator: "Брусья", // Турник, брусья прочие тренажеры
-        outfit: "",
+        outfit: "Отсутсвует",
         main_muscle_group: "Грудь",
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -423,17 +450,17 @@ export const useJymAppStore = create<IJymAppStore>()(
         type: "Упражнения с собственным весом", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
         simulator: "Брусья", // Турник, брусья прочие тренажеры
-        outfit: "",
+        outfit: "Отсутсвует",
         main_muscle_group: "Грудь",
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -449,17 +476,17 @@ export const useJymAppStore = create<IJymAppStore>()(
         type: "Упражнения с собственным весом", /// собственный вес
         positions: "Стоя", // Сидя, лежа, в наклоне 45град,
         simulator: "Брусья", // Турник, брусья прочие тренажеры
-        outfit: "",
+        outfit: "Отсутсвует",
         main_muscle_group: "Грудь",
         musclu_groups: ["Грудь", "Трицепс", "Передние дельты"],
         approaches: [
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
           {
-            iteration: "свое кол",
+            iteration: 0,
             weight: 0,
             rest: 0,
           },
@@ -470,6 +497,64 @@ export const useJymAppStore = create<IJymAppStore>()(
         animation: "анимация движения svg-качка",
       },
     ],
+    addMuscleGroup: (muscle, id) =>
+      set((store) => {
+        if (!store.STANDARTEXERSISES[id].musclu_groups.includes(muscle)) {
+          store.STANDARTEXERSISES[id].musclu_groups.push(muscle);
+        }
+      }),
+    delMuscleGrop: (item, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].musclu_groups = store.STANDARTEXERSISES[
+          id
+        ].musclu_groups.filter((group) => group !== item);
+      }),
+    addApproach: (approch, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].approaches.push(approch);
+      }),
+    delApproach: (idExersise, idApproach) =>
+      set((store) => {
+        store.STANDARTEXERSISES[idExersise].approaches.splice(idApproach, 1);
+      }),
+    changeApproachCount: (count, idExersise, idApproach) =>
+      set((store) => {
+        store.STANDARTEXERSISES[idExersise].approaches[idApproach].iteration =
+          count;
+      }),
+    changeApproachWeight: (weight, idExersise, idApproach) =>
+      set((store) => {
+        store.STANDARTEXERSISES[idExersise].approaches[idApproach].weight =
+          weight;
+      }),
+    changeApproachRest: (rest, idExersise, idApproach) =>
+      set((store) => {
+        store.STANDARTEXERSISES[idExersise].approaches[idApproach].rest = rest;
+      }),
+    setMainMuscle: (main, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].main_muscle_group = main;
+      }),
+    setOutfit: (outfit, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].outfit = outfit;
+      }),
+    setPosition: (position, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].positions = position;
+      }),
+    setSimulator: (simulator, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].simulator = simulator;
+      }),
+    setExersiseType: (type, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].type = type;
+      }),
+    setExersiseName: (name, id) =>
+      set((store) => {
+        store.STANDARTEXERSISES[id].name = name;
+      }),
     mounth: currentDay.getMonth(),
     setMounth: (mounth) => set({ mounth: mounth }),
     increaseMounth: (mounth: number) => {
@@ -535,8 +620,12 @@ export const useJymAppStore = create<IJymAppStore>()(
       { id: 6, inprogramm: false },
       { id: 7, inprogramm: false },
     ],
-    setUserExersises: (exersises) => set({ userProgrammExersises: exersises }),
-  })
+    setUserExersisList: (id) =>
+      set((store) => {
+        store.userProgrammExersises[id].inprogramm =
+          !store.userProgrammExersises[id].inprogramm;
+      }),
+  }))
   // {
   //   name: "jym-store",
   //   partialize: (state) => ({

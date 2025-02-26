@@ -10,13 +10,9 @@ export default function ExersiseList() {
   const userProgrammExersises = useJymAppStore(
     (store) => store.userProgrammExersises
   );
-  const setUserExersises = useJymAppStore((store) => store.setUserExersises);
-
-  const handleChange = (id: number) => {
-    userProgrammExersises[id].inprogramm =
-      !userProgrammExersises[id].inprogramm;
-    setUserExersises([...userProgrammExersises]);
-  };
+  const setUserExersisList = useJymAppStore(
+    (store) => store.setUserExersisList
+  );
 
   return (
     <Paper variant="outlined" sx={{ padding: "10px" }}>
@@ -48,7 +44,7 @@ export default function ExersiseList() {
                 <Checkbox
                   // defaultChecked={programmExersises[item.id].inprogramm}
                   checked={userProgrammExersises[item.id].inprogramm}
-                  onChange={() => handleChange(item.id)}
+                  onChange={() => setUserExersisList(item.id)}
                   color="success"
                 />
               </Box>
@@ -57,7 +53,7 @@ export default function ExersiseList() {
         </Box>
       </Box>
       <Paper
-        elevation={3}
+        // elevation={3}
         variant="outlined"
         sx={{
           padding: "0 10px",
